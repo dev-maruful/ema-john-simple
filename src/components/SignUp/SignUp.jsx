@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SignUp.css";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const [error, setError] = useState("");
+
   const handleSignUp = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -10,6 +12,14 @@ const SignUp = () => {
     const password = form.password.value;
     const confirm = form.confirm.value;
     console.log(email, password, confirm);
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters or more");
+      return;
+    } else if (password !== confirm) {
+      setError("Password didn't match");
+      return;
+    }
   };
 
   return (
@@ -18,15 +28,15 @@ const SignUp = () => {
       <form onSubmit={handleSignUp}>
         <div className="form-control">
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="" required />
+          <input type="email" name="email" id="email" required />
         </div>
         <div className="form-control">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" id="" required />
+          <input type="password" name="password" id="password" required />
         </div>
         <div className="form-control">
           <label htmlFor="confirm">Confirm Password</label>
-          <input type="password" name="confirm" id="" required />
+          <input type="password" name="confirm" id="confirm" required />
         </div>
         <input className="submit-btn" type="submit" value="Sign Up" />
       </form>
@@ -38,6 +48,7 @@ const SignUp = () => {
           </Link>
         </small>
       </p>
+      <p className="text-error">{error}</p>
     </div>
   );
 };
